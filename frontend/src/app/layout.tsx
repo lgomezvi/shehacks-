@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Luckiest_Guy, Oswald, Open_Sans } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./providers/AuthProvider";
 
 export const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -38,7 +39,10 @@ export default function RootLayout({
       <body
         className={`${openSans.variable} ${oswald.variable} ${luckiestGuy.variable}  antialiased`}
       >
-        {children}
+        <AuthProvider
+        >
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
