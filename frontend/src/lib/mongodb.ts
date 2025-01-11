@@ -1,14 +1,14 @@
 // lib/mongodb.ts
 import mongoose from 'mongoose';
 
-const uri = "mongodb+srv://lausogovi:do3mUNU7NfQtThqd@shehacks2025.iykzz.mongodb.net/";
-
-if (!uri) {
-  throw new Error('Add Mongo URI to .env.local');
-}
+const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
 
 export async function connectDB() {
   try {
+
+if (!uri) {
+    throw new Error('Add Mongo URI to .env.local');
+  }
     if (mongoose.connection.readyState === 1) {
       return mongoose.connection.asPromise();
     }
