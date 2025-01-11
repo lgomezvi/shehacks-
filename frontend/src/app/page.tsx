@@ -7,7 +7,7 @@ import { universities } from "./constants";
 import Image from "next/image";
 
 export default function Home() {
-  const { isAuthenticated, loginWithRedirect, signupWithRedirect } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const router = useRouter();
 
   useEffect(() => {

@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "@next/font": "^14.2.15"
-  },
-  "dependencies": {
-    "@auth0/auth0-react": "^2.2.4"
-  }
-}
