@@ -1,24 +1,23 @@
 'use client'
-
-import { useState, FormEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle } from 'lucide-react'
+import { connectDB } from '@/lib/mongodb'
 
 const ALLOWED_DOMAINS = ['uwo.ca']
 
 export default function AuthForm() {
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [message, setMessage] = useState<string>('')
+  const [emailError, setEmailError] = useState<string>('')
 
   const validateEmail = (email: string): boolean => {
     const domain = email.split('@')[1]
     if (!domain || !ALLOWED_DOMAINS.includes(domain)) {
-      setEmailError('Only @uwo.ca email addresses are allowed')
+      setEmailError('Email domain not allowed')
       return false
     }
     setEmailError('')
@@ -28,41 +27,23 @@ export default function AuthForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
-    setMessage('')
-
+    
     const formData = new FormData(e.currentTarget)
     const email = formData.get('email') as string
     
-    if (!validateEmail(email)) {
-      setLoading(false)
-      return
-    }
-
-    try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: formData.get('password'),
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong')
+    if (validateEmail(email)) {
+      try {
+        console.log('test')
+        await connectDB()
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        setMessage(`Authentication successful for ${email}`)
+      } catch (error) {
+        setMessage('Authentication failed')
       }
-
-      setMessage('Successfully registered!')
-    } catch (err: any) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
     }
+    
+    setLoading(false)
   }
 
   return (
@@ -79,7 +60,7 @@ export default function AuthForm() {
               <Input
                 id="email"
                 name="email"
-                placeholder="Enter your uwo.ca email"
+                placeholder="Enter your email"
                 type="email"
                 required
               />
@@ -102,21 +83,15 @@ export default function AuthForm() {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
+        <CardFooter>
           <Button className="w-full" disabled={loading}>
             {loading ? 'Processing...' : 'Sign In / Sign Up'}
           </Button>
-          {error && (
-            <p className="text-sm text-red-500 flex items-center">
-              <AlertCircle className="w-4 h-4 mr-1" />
-              {error}
-            </p>
-          )}
-          {message && (
-            <p className="text-sm text-green-500">{message}</p>
-          )}
         </CardFooter>
       </form>
+      {message && (
+        <p className="text-sm text-center mt-2 text-green-600">{message}</p>
+      )}
     </Card>
   )
 }
