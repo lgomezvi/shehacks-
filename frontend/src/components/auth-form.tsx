@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle } from 'lucide-react'
+import Dashboard from './Dashboard'
 
 const ALLOWED_DOMAINS = ['uwo.ca']
 
@@ -14,6 +15,7 @@ export default function AuthForm() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [user, setUser] = useState<{ email: string } | null>(null)
 
   const validateEmail = (email: string): boolean => {
     const domain = email.split('@')[1]
@@ -57,7 +59,8 @@ export default function AuthForm() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      setMessage('Successfully registered!')
+      setMessage(data.message)
+      setUser({ email: email })
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -65,11 +68,15 @@ export default function AuthForm() {
     }
   }
 
+  if (user) {
+    return <Dashboard email={user.email} />
+  }
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Authentication</CardTitle>
-        <CardDescription>Sign up or log in to your account.</CardDescription>
+        <CardDescription>Sign in with your UWO email</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent>
@@ -104,7 +111,7 @@ export default function AuthForm() {
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button className="w-full" disabled={loading}>
-            {loading ? 'Processing...' : 'Sign In / Sign Up'}
+            {loading ? 'Processing...' : 'Sign In'}
           </Button>
           {error && (
             <p className="text-sm text-red-500 flex items-center">
