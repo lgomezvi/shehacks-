@@ -25,7 +25,7 @@ export const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "UniSwap",
+  title: "Campus Cart",
   description: "Your Campus. Your Community. Your Marketplace.",
 };
 
