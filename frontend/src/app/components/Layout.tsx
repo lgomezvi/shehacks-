@@ -13,7 +13,7 @@ export const Layout = ({ children }: LayoutProps) => {
             <a>
               <img src="/logo.svg" alt="logo" />
             </a>
-            <h1 className="font-luckiest-guy text-4xl mt-3">UniSwap</h1>
+            <h1 className="font-luckiest-guy text-4xl mt-3">Campus Cart</h1>
           </div>
 
           <ul className="flex items-center gap-6">
@@ -32,7 +32,7 @@ export const Layout = ({ children }: LayoutProps) => {
       {children}
       <footer>
         <div className="flex w-full justify-center items-center py-4">
-          <p>&copy; 2025 UniSwap. All rights reserved.</p>
+          <p>&copy; 2025 Campus Cart. All rights reserved.</p>
         </div>
       </footer>
     </div>

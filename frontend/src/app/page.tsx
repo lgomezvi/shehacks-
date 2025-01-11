@@ -23,7 +23,7 @@ export default function Home() {
         <main className="flex flex-col items-center justify-center h-screen gap-14">
           <div className="flex flex-col items-center justify-center">
             <img src="/logo.svg" alt="logo" className="h-[200px] w-[200px]" />
-            <h1 className="font-luckiest-guy mt-3">UniSwap</h1>
+            <h1 className="font-luckiest-guy mt-3">Campus Cart</h1>
             <p>Your campus. Your community. Your marketplace.</p>
           </div>
           <div className="flex gap-4">
