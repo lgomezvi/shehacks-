@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import { User } from '@/models/User';
+import { hash, compare } from 'bcryptjs';
 
 export async function POST(request: Request) {
   try {
@@ -9,12 +10,16 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, password } = body;
 
+    // Encrypt password
+    const hashedPassword = await hash(password, 10);
+
     // Check if user exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      // Simple password check (in reality, use proper password hashing)
-      if (existingUser.password === password) {
+      // Check if password is correct
+      const isPasswordCorrect = await compare(password, existingUser.password);
+      if (isPasswordCorrect) {
         return NextResponse.json({ 
           user: existingUser,
           message: 'Login successful'
@@ -30,7 +35,7 @@ export async function POST(request: Request) {
     // If user doesn't exist, create new account
     const user = await User.create({
       email,
-      password,
+      password: hashedPassword,
     });
 
     return NextResponse.json({ 
