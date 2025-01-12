@@ -10,7 +10,7 @@ export const Menu: React.FC<MenuProps> = ({ selectedCategory, setSelectedCategor
   const categories = ['all', 'tech', 'furniture', 'textbooks', 'apparel', 'household'];
 
   return (
-    <div className="flex gap-4 mb-4 overflow-x-auto py-2">
+    <div className="flex flex-wrap gap-4 mb-4 overflow-x-auto py-2 items-center justify-center">
       {categories.map(category => (
         <button
           key={category}
