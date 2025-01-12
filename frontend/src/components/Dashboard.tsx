@@ -75,7 +75,9 @@ export default function Dashboard({ email }: DashboardProps) {
       setSuccessMessage("Listing created successfully!");
       console.log("Listing created:", data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
       console.error("Error creating listing:", err);
     } finally {
       setIsLoading(false);
