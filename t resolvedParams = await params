@@ -1,0 +1,37 @@
+[33mdcfe7e29d9872df5b712e694245c5a7b0f4e9778[m[33m ([m[1;36mHEAD -> [m[1;32mdb-integration[m[33m, [m[1;31morigin/db-integration[m[33m)[m minor bug fixes
+[33m24d09d137096e9741362ab0b34b738bb887a6690[m mark as sold
+[33me42534f8078b95c4792a534b2b041e649fbe3d8e[m better product details and seller stats
+[33me1ecea06c3c1a1a9799b24d3bea5067a88819fd1[m show all the listings on explore
+[33m5af4e45668684f80e691edfa8790ce41ac02df24[m add condition status and sold flag
+[33ma2690ae821feee0230b2e633e4b60a1a8b8df7d4[m dynamic retrieval stats profile
+[33m1d6f7fa9ec9734f14c4801c9e4fa4837a808d685[m dynamic listing creation + api
+[33m656275595a981060ddabc21ca2cdd8e3f5adf692[m profile page and create listing btn
+[33m667a935847f039c661d3d16c010dd800351fdb17[m[33m ([m[1;31morigin/explore[m[33m, [m[1;32mexplore[m[33m)[m UI Update
+[33m143b30dec6be3672bc2a7245daf6e4151a29e913[m i transferred my stuff from dashboard to here
+[33ma3498616d0503c28859cabccd114de91ced4748d[m Merge pull request #6 from lgomezvi/explore-pages
+[33m7736a50e240db3aa8dfbc7988a524831df2672f8[m Added search
+[33m6b073d1095c54458652fef3ed6f959d94f13746c[m Different login, log out menu
+[33m219212c442500f5f2f1ad1bf187b63581376183d[m Created explore page
+[33m058c32161bff22f08a78b9201ae83d32cc315d76[m i transferred my stuff from dashboard to here
+[33mcf0ea9ab0fd652e9a6cec408d13e2519c87bd7df[m[33m ([m[1;31morigin/email-verification[m[33m, [m[1;31morigin/develop[m[33m)[m Email verification
+[33m12170db68da55a9a04adb81b81742fe87a5afedf[m Removed layout from dashboard
+[33m071a19713817b695d2c19d966c345bd2e3bee314[m Merge pull request #3 from lgomezvi/backend
+[33m56582b329d2746943e5d5b23a10dd8fc787f4c53[m update packagelock
+[33mc40ac63bb52695c5395269330a428d3a00838f53[m listing scheme and api calls have been connected
+[33mdc972b62047f0b620ccfee4c4c8ef2f7ec9c1095[m docs readme and dev plan
+[33m1958559b2f2045dfa68063265cdeb825d323923d[m fix minor dashboard and next public env
+[33m111bb12ae66a1504acf303b5e643a874cb864f56[m feat add bcryptjs for password hashing and compare
+[33m34afcd557151ab88e2c9dc63e0118fe19d0b28a7[m feat register + login complete
+[33m6479d88967e6a551096ae3b69951c5db18454817[m feat db connection basic auth route save users
+[33m0a94953f870b7ccedd8f1b50fe212073041ab54b[m feat added authentication screen and domain veification
+[33m164d610c711f75992f1ac1742085ec37280f0387[m Merge pull request #4 from lgomezvi/Landing/page
+[33m5c917c813e1524571d014e023740d3016d7a1bc4[m Merge pull request #2 from lgomezvi/Font-Init
+[33m9bc37ad84d576edbcb0628880d1616343cc9b645[m changed uniswap to campus cart
+[33meb65d41b592a10b9b06f436bee37ff9ab6d39100[m changed title
+[33md87c2b644a76f4debf03fd0789a325d443521fc9[m Implemented dashboard
+[33mda755695ad1c5d442ebb91507cee991580de0b5d[m Updated packagelock
+[33mfb9ded2ce3422202c6a1606e0302828e01b20974[m Removed package lock from wrong area
+[33m4a21a3ba681a6b3bf5b78d82ba8aa69f746479a0[m Created langing page + login sign up
+[33md6ae7dcf1bfcb04760755da0c9bc9aaf1ec1780b[m Initialized font
+[33mb61e0791ca319aec599a345ee529d11f7da08cba[m Initialized react app for frontend
+[33me4b86b78cfe99e1c6da73a9d67b1fd152f8444e2[m Initial commit
