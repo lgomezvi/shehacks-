@@ -19,6 +19,7 @@ NEXT_PUBLIC_MONGODB_URI='mongodb+srv://<ask group chat for key>
 
 `models`:
 - `User`: schema w email and password
+
 - `Post`: to-do
 - add coordinates? how to get browser coordinates?
 
@@ -66,6 +67,7 @@ Frontend:
 - use api to get all posts and show them
 
 Extras:
+
 - allow image upload and hosting (AWS S3?)- maybe use imgur 
 - add coordinates and target posts using location
 - where to add ai????

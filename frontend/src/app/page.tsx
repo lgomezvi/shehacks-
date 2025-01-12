@@ -1,3 +1,4 @@
+
 "use client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/navigation";
@@ -5,6 +6,7 @@ import { useEffect } from "react";
 import { Layout } from "./components";
 import { universities } from "./constants";
 import Image from "next/image";
+
 
 export default function Home() {
   const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
@@ -50,6 +52,7 @@ export default function Home() {
 
   // Landing page for unauthenticated users
   return (
+
     <Layout>
       <main className="flex flex-col items-center justify-center min-h-screen gap-14 py-8">
         <div className="flex flex-col items-center justify-center">
@@ -102,3 +105,4 @@ export default function Home() {
     </Layout>
   );
 }
+

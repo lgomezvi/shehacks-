@@ -9,6 +9,7 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+
     screens: {
       xs: "400px",
       sm: "600px",
@@ -119,3 +120,4 @@ export default {
   		}
   	}
   } as Config;
+

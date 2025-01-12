@@ -1,5 +1,5 @@
 // models/User.ts
-// blueprint 
+
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   // add more fields here
+
 }, { timestamps: true });
 
 export const User = mongoose.models.User || mongoose.model('User', userSchema);
