@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import { Listing } from '@/models/Listing'; // Import Listing model (not User)
-import { ObjectId } from 'mongodb';
 
 export async function POST(request: Request) {
   try {
@@ -46,6 +45,7 @@ export async function POST(request: Request) {
       message: 'Listing created successfully!',
       listing: newListing,
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     // Catch all errors and log them for better debugging
     console.error(error);
