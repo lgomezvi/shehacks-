@@ -22,13 +22,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // You can add additional validation for fields if needed
-    if (typeof price !== 'number' || price <= 0) {
-      return NextResponse.json(
-        { error: 'Price must be a positive number.' },
-        { status: 400 }
-      );
-    }
 
     // Create a new listing
     const newListing = await Listing.create({

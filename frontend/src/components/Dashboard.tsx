@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CreateListing from "@/components/CreateListing";
+import { set } from "mongoose";
 
 interface DashboardProps {
   email: string;
@@ -19,8 +21,18 @@ interface ListingData {
 
 export default function Dashboard({ email }: DashboardProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isListing, setIsListing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const handleCreateListing = async () => {
+    setIsListing(true);
+  };
+
+  const handleListingCreated = () => {
+    setIsListing(false);
+    setSuccessMessage("Listing created successfully!");
+  };
 
   // Dummy data
   const userData = {
@@ -41,50 +53,51 @@ export default function Dashboard({ email }: DashboardProps) {
     },
   };
 
-  const handleCreateListing = async () => {
-    setIsLoading(true);
-    setError(null);
-    setSuccessMessage(null);
+  // const handleCreateListing = async () => {
+  //   setIsListing(true);
+  //   setIsLoading(true);
+  //   setError(null);
+  //   setSuccessMessage(null);
 
-    const listingData: ListingData = {
-      category: "Electronics",
-      product: "Gaming Laptop",
-      price: 1200,
-      description: "Selling my gaming laptop",
-      image: "gaming-laptop.jpg",
-      location: "New York, NY",
-      availability: "Available",
-    };
+  //   const listingData: ListingData = {
+  //     category: "Electronics",
+  //     product: "Gaming Laptop",
+  //     price: 1200,
+  //     description: "Selling my gaming laptop",
+  //     image: "gaming-laptop.jpg",
+  //     location: "New York, NY",
+  //     availability: "Available",
+  //   };
 
-    try {
-      const res = await fetch("/api/listing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          ...listingData,
-        }),
-      });
+  //   try {
+  //     const res = await fetch("/api/listing", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email,
+  //         ...listingData,
+  //       }),
+  //     });
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to create listing");
-      }
+  //     if (!res.ok) {
+  //       throw new Error(data.error || "Failed to create listing");
+  //     }
 
-      setSuccessMessage("Listing created successfully!");
-      console.log("Listing created:", data);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
-      console.error("Error creating listing:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     setSuccessMessage("Listing created successfully!");
+  //     console.log("Listing created:", data);
+  //   } catch (err) {
+  //     setError(
+  //       err instanceof Error ? err.message : "An unexpected error occurred"
+  //     );
+  //     console.error("Error creating listing:", err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className="space-y-4 w-full max-w-4xl">
@@ -111,7 +124,12 @@ export default function Dashboard({ email }: DashboardProps) {
         </CardContent>
       </Card>
 
+      {/* If is listing  */}
+
+      {isListing && <CreateListing onListingCreated={handleListingCreated} />}
+
       {/* Listings and Recent Activity Section */}
+      { !isListing && 
       <div className="grid grid-cols-2 gap-4">
         {/* My Listings */}
         <Card>
@@ -179,7 +197,7 @@ export default function Dashboard({ email }: DashboardProps) {
         >
           {isLoading ? "Creating Listing..." : "Create New Listing"}
         </Button>
-      </div>
+      </div>}
     </div>
   );
 }
