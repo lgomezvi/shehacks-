@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 interface ListingData {
@@ -9,6 +9,21 @@ interface ListingData {
   description: string;
   image: string;
   location: string;
+}
+
+interface UserData {
+  listings: {
+    id: string;
+    title: string;
+    price: string;
+    status: string;
+  }[];
+  recentActivity: string[];
+  stats: {
+    totalListings: number;
+    activeListings: number;
+    soldListings: number;
+  };
 }
 
 export default function Profile() {
@@ -25,25 +40,34 @@ export default function Profile() {
     location: "",
   });
   const [showForm, setShowForm] = useState(false);
-
-  // Dummy data from Dashboard
-  const userData = {
-    listings: [
-      { id: 1, title: "Gaming Laptop", price: "$1200", status: "Active" },
-      { id: 2, title: "Desk Chair", price: "$150", status: "Sold" },
-      { id: 3, title: "Headphones", price: "$200", status: "Active" },
-    ],
-    recentActivity: [
-      "Listed 'Gaming Laptop' for sale",
-      "Sold 'Desk Chair'",
-      "Updated price for 'Headphones'",
-    ],
+  const [userData, setUserData] = useState<UserData>({
+    listings: [],
+    recentActivity: [],
     stats: {
-      totalListings: 3,
-      activeListings: 2,
-      soldListings: 1,
+      totalListings: 0,
+      activeListings: 0,
+      soldListings: 0,
     },
-  };
+  });
+
+  useEffect(() => {
+    const fetchUserListings = async () => {
+      if (!user?.email) return;
+
+      try {
+        const response = await fetch(`/api/listings/${encodeURIComponent(user.email)}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch listings');
+        }
+        const data = await response.json();
+        setUserData(data);
+      } catch (err) {
+        console.error('Error fetching user listings:', err);
+      }
+    };
+
+    fetchUserListings();
+  }, [user?.email]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -94,6 +118,13 @@ export default function Profile() {
         setShowForm(false);
         setSuccessMessage(null);
       }, 2000);
+
+      // After successful creation, refresh the listings
+      const response = await fetch(`/api/listings/${encodeURIComponent(user?.email || '')}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserData(data);
+      }
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"
