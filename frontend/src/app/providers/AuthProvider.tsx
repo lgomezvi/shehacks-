@@ -8,6 +8,11 @@ interface AuthProviderProps {
 }
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  if (typeof window === 'undefined') {
+    // Return a loading state or placeholder during SSR
+    return <>{children}</>;
+  }
+
   console.log("Auth Domain:", !!process.env.NEXT_PUBLIC_AUTH_DOMAIN);
   console.log("Client ID:", !!process.env.NEXT_PUBLIC_AUTH_CLIENT_ID);
 
