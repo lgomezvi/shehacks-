@@ -14,7 +14,7 @@ interface ListingDocument {
 
 export async function GET(
   request: Request,
-  { params }: { params: { email: string } }
+  { params }: { params: Promise<{ email: string }> }
 ) {
   try {
     await connectDB();

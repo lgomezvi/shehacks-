@@ -3,21 +3,21 @@ import { Luckiest_Guy, Oswald, Open_Sans } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./providers/AuthProvider";
 
-export const luckiestGuy = Luckiest_Guy({
+const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
   display: "swap",
   subsets: ["latin"],
   weight: ["400"],
 });
 
-export const oswald = Oswald({
+const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-export const openSans = Open_Sans({
+const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -39,10 +39,7 @@ export default function RootLayout({
       <body
         className={`${openSans.variable} ${oswald.variable} ${luckiestGuy.variable}  antialiased`}
       >
-        <AuthProvider
-        >
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

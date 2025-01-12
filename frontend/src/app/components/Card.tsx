@@ -9,6 +9,7 @@ interface CardProps {
   description: string;
   status: 'New' | 'Used' | 'Refurbished';
   location: string;
+  onClick?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({ id, image, title, price, description, status, location }) => {
