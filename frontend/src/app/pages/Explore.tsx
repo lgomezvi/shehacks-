@@ -4,10 +4,17 @@ import { Menu } from '../components/Menu'
 import { Search, ChevronDown } from 'lucide-react' // Import icons
 
 const items = [
-  { category: 'tech', image: '/Selling/used_Macbook.jpg', title: 'Macbook Pro', originalPrice: 1299, salePrice: 999 },
-  { category: 'furniture', image: '/Selling/grey_couch.jpg', title: 'Grey Couch', salePrice: 70 },
-  // ... rest of your items
-]
+    { category: 'tech', image: '/Selling/used_Macbook.jpg', title: 'Macbook Pro', originalPrice: 1299, salePrice: 999 },
+    { category: 'furniture', image: '/Selling/grey_couch.jpg', title: 'Grey Couch', salePrice: 70 },
+    { category: 'textbooks', image: '/Selling/dental_textbook.jpg', title: 'Dental Hygiene Textbook', originalPrice: 300, salePrice: 250 },
+    { category: 'furniture', image: '/Selling/dresser.jpg', title: 'White Dresser', salePrice: 20 },
+    { category: 'textbooks', image: '/Selling/human_anatomy_textbook.jpg', title: 'Human Anatomy Textbook', salePrice: 50 },
+    { category: 'tech', image: '/Selling/beats.jpg', title: 'Beats Solo 3', originalPrice: 100, salePrice: 80 },
+    { category: 'furniture', image: '/Selling/table.jpg', title: 'Table', salePrice: 60 },
+    { category: 'textbooks', image: '/Selling/nursing_textbook.jpg', title: 'Nursing Textbook', salePrice: 60 },
+    { category: 'apparel', image: '/Selling/backpack.jpg', title: 'Kanken Backpacks', salePrice: 30 },
+    { category: 'household', image: '/Selling/rice_cooker.jpg', title: 'Rice Cooker', originalPrice: 30, salePrice: 20 },
+  ]
 
 const sortOptions = [
   { label: 'Price: Low to High', value: 'price-asc' },
