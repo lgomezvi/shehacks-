@@ -11,10 +11,10 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Destructure the incoming data
-    const { email, category, product, price, description, image, location } = body;
+    const { email, category, product, price, description, image, location, status, sold } = body;
 
     // Check if all required fields are provided
-    if (!email || !category || !product || !price || !description || !image || !location) {
+    if (!email || !category || !product || !price || !description || !image || !location || !status) {
       return NextResponse.json(
         { error: 'All fields are required.' },
         { status: 400 }
@@ -38,6 +38,8 @@ export async function POST(request: Request) {
       description,
       image,
       location,
+      status,
+      sold: sold || false
     });
 
     // Return success response with the newly created listing

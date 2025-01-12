@@ -9,6 +9,7 @@ interface ListingData {
   description: string;
   image: string;
   location: string;
+  status: string;
 }
 
 interface UserData {
@@ -38,6 +39,7 @@ export default function Profile() {
     description: "",
     image: "",
     location: "",
+    status: "Used"
   });
   const [showForm, setShowForm] = useState(false);
   const [userData, setUserData] = useState<UserData>({
@@ -113,6 +115,7 @@ export default function Profile() {
         description: "",
         image: "",
         location: "",
+        status: "Used"
       });
       setTimeout(() => {
         setShowForm(false);
@@ -260,6 +263,23 @@ export default function Profile() {
                 className="w-full p-2 border rounded-md"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Condition
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded-md"
+                required
+              >
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+                <option value="Refurbished">Refurbished</option>
+              </select>
             </div>
 
             {error && <div className="text-red-600 text-sm">{error}</div>}

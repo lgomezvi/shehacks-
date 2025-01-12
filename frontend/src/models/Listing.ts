@@ -34,8 +34,12 @@ const listingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Available', 'Sold'],
-    default: 'Available',
+    enum: ['New', 'Used', 'Refurbished'],
+    default: 'Used',
+  },
+  sold: {
+    type: Boolean,
+    default: false,
   },
   // Add more fields here if necessary, like "tags", "status", etc.
 }, { timestamps: true }); // Enable timestamps for createdAt and updatedAt
