@@ -59,3 +59,21 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    await connectDB();
+    
+    const listings = await Listing.find({}).sort({ createdAt: -1 });
+    
+    return NextResponse.json({
+      listings,
+    });
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to fetch listings' },
+      { status: 500 }
+    );
+  }
+}
