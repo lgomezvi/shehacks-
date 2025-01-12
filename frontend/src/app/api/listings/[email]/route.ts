@@ -19,15 +19,16 @@ export async function GET(
   try {
     await connectDB();
     
-    // Ensure params.email is available before using it
-    if (!params?.email) {
+    // Await params before accessing email
+    const resolvedParams = await params;
+    if (!resolvedParams?.email) {
       return NextResponse.json(
         { error: 'Email parameter is required' },
         { status: 400 }
       );
     }
 
-    const email = decodeURIComponent(params.email);
+    const email = decodeURIComponent(resolvedParams.email);
     const listings = await Listing.find({ email })
       .sort({ createdAt: -1 })
       .select('product price status sold createdAt')

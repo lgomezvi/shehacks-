@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
-import { Types } from 'mongoose';
 
 export async function POST(request: Request) {
   try {
