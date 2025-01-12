@@ -35,7 +35,8 @@ export default function AuthForm() {
 
     const formData = new FormData(e.currentTarget)
     const email = formData.get('email') as string
-    
+    const password = formData.get('password') as string
+
     if (!validateEmail(email)) {
       setLoading(false)
       return
@@ -49,7 +50,7 @@ export default function AuthForm() {
         },
         body: JSON.stringify({
           email: email,
-          password: formData.get('password'),
+          password: password,
         }),
       })
 

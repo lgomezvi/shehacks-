@@ -8,7 +8,8 @@ export async function POST(request: Request) {
   try {
     await connectDB();
     const body = await request.json();
-    const { email, password } = body;
+    const email = body.email;
+    const password = body.password;
 
     // Encrypt password
     const hashedPassword = await hash(password, 10);

@@ -1,7 +1,7 @@
 // lib/mongodb.ts
 import mongoose from 'mongoose';
 
-const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
+const uri = process.env.NEXT_PUBLIC_MONGODB_URI; // access the environment variable
 
 export async function connectDB() {
   try {
