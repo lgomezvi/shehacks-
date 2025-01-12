@@ -8,18 +8,51 @@ import Image from "next/image";
 import { Dashboard } from "./pages/Dashboard";
 
 export default function Home() {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // Check if user is authenticated but email is not verified
+    if (isAuthenticated && user && !user.email_verified) {
+      return;
+    }
+
+    if (isAuthenticated && user?.email_verified) {
       router.push("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, user, router, logout]);
+
+  const UnverifiedEmailPrompt = () => (
+    <div className="flex flex-col items-center justify-center p-6 bg-yellow-50 rounded-lg">
+      <h2 className="text-xl font-bold mb-2">Email Verification Required</h2>
+      <p className="text-center mb-4">
+        Please verify your email address to continue. Check your inbox for the
+        verification link.
+      </p>
+      <button
+        onClick={() =>
+          logout({
+            logoutParams: {
+              returnTo: window.location.origin,
+            },
+          })
+        }
+        className="btn btn-secondary"
+      >
+        Return to Login
+      </button>
+    </div>
+  );
 
   return (
     <Layout>
-      {!isAuthenticated && (
+      {isAuthenticated && user ? (
+        user.email_verified ? (
+          <Dashboard />
+        ) : (
+          <UnverifiedEmailPrompt />
+        )
+      ) : (
         <main className="flex flex-col items-center justify-center h-screen gap-14">
           <div className="flex flex-col items-center justify-center">
             <img src="/logo.svg" alt="logo" className="h-[200px] w-[200px]" />
@@ -65,7 +98,6 @@ export default function Home() {
           </div>
         </main>
       )}
-      {isAuthenticated ? <Dashboard /> : <p>Error</p>}
     </Layout>
   );
 }
