@@ -5,22 +5,17 @@ import { useEffect } from "react";
 import { Layout } from "./components";
 import { universities } from "./constants";
 import Image from "next/image";
-import Explore from "./pages/Explore";
 
 export default function Home() {
   const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated but email is not verified
-    if (isAuthenticated && user && !user.email_verified) {
-      return;
-    }
-
+    // If user is authenticated and email is verified, redirect to explore page
     if (isAuthenticated && user?.email_verified) {
-      router.push("/");
+      router.push("/explore");
     }
-  }, [isAuthenticated, user, router, logout]);
+  }, [isAuthenticated, user, router]);
 
   const UnverifiedEmailPrompt = () => (
     <div className="flex flex-col items-center justify-center p-6 bg-yellow-50 rounded-lg">
@@ -44,61 +39,66 @@ export default function Home() {
     </div>
   );
 
+  // If user is authenticated but email is not verified, show verification prompt
+  if (isAuthenticated && user && !user.email_verified) {
+    return (
+      <Layout>
+        <UnverifiedEmailPrompt />
+      </Layout>
+    );
+  }
+
+  // Landing page for unauthenticated users
   return (
     <Layout>
-      {isAuthenticated && user ? (
-        user.email_verified ? (
-          <Dashboard />
-        ) : (
-          <UnverifiedEmailPrompt />
-        )
-      ) : (
-        <main className="flex flex-col items-center justify-center h-screen gap-14">
-          <div className="flex flex-col items-center justify-center">
-            <img src="/logo.svg" alt="logo" className="h-[200px] w-[200px]" />
-            <h1 className="font-luckiest-guy mt-3">Campus Cart</h1>
-            <p>Your campus. Your community. Your marketplace.</p>
-          </div>
-          <div className="flex gap-4">
-            <button
-              onClick={() =>
-                loginWithRedirect({
-                  authorizationParams: {
-                    screen_hint: "signup",
-                  },
-                })
-              }
-              className="btn btn-primary"
-            >
-              Sign Up
-            </button>
+      <main className="flex flex-col items-center justify-center min-h-screen gap-14 py-8">
+        <div className="flex flex-col items-center justify-center">
+          <img src="/logo.svg" alt="logo" className="h-[200px] w-[200px]" />
+          <h1 className="font-luckiest-guy mt-3 text-4xl">Campus Cart</h1>
+          <p className="text-lg mt-2">Your campus. Your community. Your marketplace.</p>
+        </div>
 
-            <button
-              onClick={() => loginWithRedirect()}
-              className="btn btn-secondary"
-            >
-              Log In
-            </button>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-4">
+        <div className="flex gap-4">
+          <button
+            onClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            className="btn btn-primary px-8 py-2"
+          >
+            Sign Up
+          </button>
+
+          <button
+            onClick={() => loginWithRedirect()}
+            className="btn btn-secondary px-8 py-2"
+          >
+            Log In
+          </button>
+        </div>
+
+        <div className="flex flex-col items-center justify-center gap-4">
+          <p className="text-lg font-medium text-gray-700">
             Trusted by over 1 million students across 1000+ campuses.
-            <div className="flex gap-4">
-              {universities.map((uni) => (
-                <Image
-                  key={uni.name}
-                  src={uni.image}
-                  alt={`${uni.name} University`}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="w-auto h-[60px] object-contain"
-                />
-              ))}
-            </div>
+          </p>
+          <div className="flex flex-wrap justify-center gap-8">
+            {universities.map((uni) => (
+              <Image
+                key={uni.name}
+                src={uni.image}
+                alt={`${uni.name} University`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-auto h-[60px] object-contain"
+              />
+            ))}
           </div>
-        </main>
-      )}
-      {isAuthenticated ? <Explore /> : <p>Error</p>}
+        </div>
+      </main>
     </Layout>
   );
 }

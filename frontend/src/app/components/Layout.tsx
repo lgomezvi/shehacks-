@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 
 interface LayoutProps {
@@ -5,6 +6,8 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children }: LayoutProps) => {
+  const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
+
   return (
     <div className="flex flex-col">
       <header className="flex w-full px-6 py-4 border border-b-1">
@@ -13,19 +16,39 @@ export const Layout = ({ children }: LayoutProps) => {
             <a>
               <img src="/logo.svg" alt="logo" />
             </a>
-            <h1 className="font-luckiest-guy text-4xl mt-3">Campus Cart</h1>
+            <h1 className="font-luckiest-guy text-4xl mt-3 text-center">
+              Campus Cart
+            </h1>
           </div>
 
-          <ul className="flex items-center gap-6">
+          <ul className="items-center gap-6 md:flex hidden">
             <li>
               <a>Home</a>
             </li>
             <li>
               <a>About</a>
             </li>
-            <li>
-              <a className="btn btn-primary">Sign Up</a>
-            </li>
+            {!isAuthenticated && (
+              <li>
+                <a className="btn btn-primary">Sign Up</a>
+              </li>
+            )}
+            {isAuthenticated && (
+              <li>
+                <a
+                  className="btn btn-primary"
+                  onClick={() =>
+                    logout({
+                      logoutParams: {
+                        returnTo: window.location.origin,
+                      },
+                    })
+                  }
+                >
+                  Log Out
+                </a>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
