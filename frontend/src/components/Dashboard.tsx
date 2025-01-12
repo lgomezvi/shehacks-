@@ -1,13 +1,26 @@
-// app/components/Dashboard.tsx
-'use client';
-
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface DashboardProps {
   email: string;
 }
 
+interface ListingData {
+  category: string;
+  product: string;
+  price: number;
+  description: string;
+  image: string;
+  location: string;
+}
+
 export default function Dashboard({ email }: DashboardProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   // Dummy data
   const userData = {
     listings: [
@@ -25,6 +38,48 @@ export default function Dashboard({ email }: DashboardProps) {
       activeListings: 2,
       soldListings: 1,
     },
+  };
+
+  const handleCreateListing = async () => {
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    const listingData: ListingData = {
+      category: "Electronics",
+      product: "Gaming Laptop",
+      price: 1200,
+      description: "Selling my gaming laptop",
+      image: "gaming-laptop.jpg",
+      location: "New York, NY",
+    };
+
+    try {
+      const res = await fetch("/api/listing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          ...listingData,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to create listing");
+      }
+
+      setSuccessMessage("Listing created successfully!");
+      console.log("Listing created:", data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      console.error("Error creating listing:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,7 +117,10 @@ export default function Dashboard({ email }: DashboardProps) {
           <CardContent>
             <ul className="space-y-2">
               {userData.listings.map((listing) => (
-                <li key={listing.id} className="flex justify-between items-center">
+                <li
+                  key={listing.id}
+                  className="flex justify-between items-center"
+                >
                   <div>
                     <h4 className="font-semibold">{listing.title}</h4>
                     <p className="text-sm text-gray-600">{listing.price}</p>
@@ -97,6 +155,26 @@ export default function Dashboard({ email }: DashboardProps) {
             </ul>
           </CardContent>
         </Card>
+
+        {/* Error and Success Messages */}
+        {error && (
+          <div className="col-span-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
+        {successMessage && (
+          <div className="col-span-2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            {successMessage}
+          </div>
+        )}
+
+        <Button
+          onClick={handleCreateListing}
+          disabled={isLoading}
+          className="mt-4"
+        >
+          {isLoading ? "Creating Listing..." : "Create New Listing"}
+        </Button>
       </div>
     </div>
   );
