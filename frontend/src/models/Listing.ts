@@ -32,6 +32,15 @@ const listingSchema = new mongoose.Schema({
     type: String, // location of the product (e.g., city, state)
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['New', 'Used', 'Refurbished'],
+    default: 'Used',
+  },
+  sold: {
+    type: Boolean,
+    default: false,
+  },
   // Add more fields here if necessary, like "tags", "status", etc.
 }, { timestamps: true }); // Enable timestamps for createdAt and updatedAt
 

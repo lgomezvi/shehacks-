@@ -8,6 +8,9 @@ interface AuthProviderProps {
 }
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  console.log("Auth Domain:", !!process.env.NEXT_PUBLIC_AUTH_DOMAIN);
+  console.log("Client ID:", !!process.env.NEXT_PUBLIC_AUTH_CLIENT_ID);
+
   return (
     <Auth0Provider
       domain={process.env.NEXT_PUBLIC_AUTH_DOMAIN || ""}

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
-import { Listing } from '@/models/Listing'; // Import Listing model (not User)
+import { Listing } from '@/models/Listing';
 
 export async function POST(request: Request) {
   try {
@@ -11,10 +11,10 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Destructure the incoming data
-    const { email, category, product, price, description, image, location } = body;
+    const { email, category, product, price, description, image, location, status, sold } = body;
 
     // Check if all required fields are provided
-    if (!email || !category || !product || !price || !description || !image || !location) {
+    if (!email || !category || !product || !price || !description || !image || !location || !status) {
       return NextResponse.json(
         { error: 'All fields are required.' },
         { status: 400 }
@@ -38,6 +38,8 @@ export async function POST(request: Request) {
       description,
       image,
       location,
+      status,
+      sold: sold || false
     });
 
     // Return success response with the newly created listing
@@ -53,6 +55,25 @@ export async function POST(request: Request) {
     // Return an appropriate error message to the client
     return NextResponse.json(
       { error: error.message || 'Something went wrong' },
+      { status: 500 }
+    );
+  }
+}
+
+
+export async function GET() {
+  try {
+    await connectDB();
+    
+    const listings = await Listing.find({sold: false}).sort({ createdAt: -1 });
+    
+    return NextResponse.json({
+      listings,
+    });
+  } catch (error: unknown) {
+    console.error(error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to fetch listings' },
       { status: 500 }
     );
   }
