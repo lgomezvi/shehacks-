@@ -26,12 +26,12 @@ interface ListingData {
   availability: string;
 }
 
-export default function CreateListing() {
+export default function CreateListingForm({ email }: { email: string }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [listingData, setListingData] = useState<ListingData>({
-    email: "",
+    email,
     category: "",
     product: "",
     price: 0,
@@ -48,8 +48,8 @@ export default function CreateListing() {
     setListingData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name: string, value: string) => {
-    setListingData((prev) => ({ ...prev, [name]: value }));
+  const handleCategoryChange = (value: string) => {
+    setListingData((prev) => ({ ...prev, category: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,21 +92,8 @@ export default function CreateListing() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={listingData.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
             <Label htmlFor="category">Category</Label>
-            <Select
-              onValueChange={(value) => handleSelectChange("category", value)}
-            >
+            <Select onValueChange={handleCategoryChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -170,21 +157,6 @@ export default function CreateListing() {
               required
             />
           </div>
-          <div>
-            <Label htmlFor="availability">Availability</Label>
-            <Select
-              onValueChange={(value) => handleSelectChange("availability", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select availability" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Available">Available</SelectItem>
-                <SelectItem value="Sold">Sold</SelectItem>
-                <SelectItem value="Reserved">Reserved</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
               {error}
@@ -198,4 +170,3 @@ export default function CreateListing() {
     </Card>
   );
 }
-

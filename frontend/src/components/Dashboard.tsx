@@ -14,6 +14,7 @@ interface ListingData {
   description: string;
   image: string;
   location: string;
+  availability: string;
 }
 
 export default function Dashboard({ email }: DashboardProps) {
@@ -52,6 +53,7 @@ export default function Dashboard({ email }: DashboardProps) {
       description: "Selling my gaming laptop",
       image: "gaming-laptop.jpg",
       location: "New York, NY",
+      availability: "Available",
     };
 
     try {

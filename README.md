@@ -70,3 +70,9 @@ Extras:
 - add coordinates and target posts using location
 - where to add ai????
 
+
+
+NEED TO DO PAGE THAT MAKES THE PRODUCT LISTING 
+impment aris function  ML
+ari - doraacks undertsand and work on pitch 
+neec to link backend to frontend 

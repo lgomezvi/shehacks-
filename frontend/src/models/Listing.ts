@@ -32,6 +32,10 @@ const listingSchema = new mongoose.Schema({
     type: String, // location of the product (e.g., city, state)
     required: true,
   },
+  availability: {
+    type: String, // avaliability of the product (e.g., city, state)
+    required: true,
+  },
   // Add more fields here if necessary, like "tags", "status", etc.
 }, { timestamps: true }); // Enable timestamps for createdAt and updatedAt
 
