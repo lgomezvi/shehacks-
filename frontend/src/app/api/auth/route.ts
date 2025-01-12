@@ -43,9 +43,15 @@ export async function POST(request: Request) {
       user,
       message: 'Registration successful'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: error.message || 'Something went wrong' },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
-      { error: error.message || 'Something went wrong' },
+      { error: 'Something went wrong' },
       { status: 500 }
     );
   }

@@ -10,27 +10,26 @@ export async function GET(
   try {
     await connectDB();
     
-    // Ensure id parameter is available and await it
+    // Ensure id parameter is available
     const resolvedParams = await params;
-    const id = resolvedParams.id;
 
-    if (!id) {
+    if (!resolvedParams?.id) {
       return NextResponse.json(
         { error: 'Listing ID is required' },
         { status: 400 }
       );
     }
 
-    // Validate using resolved id
-    if (!Types.ObjectId.isValid(id)) {
+    // Validate if the ID is a valid MongoDB ObjectId
+    if (!Types.ObjectId.isValid(params.id)) {
       return NextResponse.json(
         { error: 'Invalid listing ID format' },
         { status: 400 }
       );
     }
 
-    // Use resolved id for database query
-    const listing = await Listing.findById(id).lean();
+    // Find the listing by ID
+    const listing = await Listing.findById(params.id).lean();
 
     // If no listing is found, return 404
     if (!listing) {
@@ -59,11 +58,7 @@ export async function PATCH(
     try {
       await connectDB();
       
-      // Await params here as well
-      const resolvedParams = await params;
-      const id = resolvedParams.id;
-      
-      if (!id || !Types.ObjectId.isValid(id)) {
+      if (!params?.id || !Types.ObjectId.isValid(params.id)) {
         return NextResponse.json(
           { error: 'Invalid listing ID' },
           { status: 400 }
@@ -71,7 +66,7 @@ export async function PATCH(
       }
   
       const listing = await Listing.findByIdAndUpdate(
-        id,
+        params.id,
         { 
           sold: true,
           status: 'Sold'
