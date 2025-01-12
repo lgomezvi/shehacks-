@@ -23,7 +23,8 @@ export default {
       transparent: "transparent",
       current: "currentColor",
       black: "#171717",
-      white: "#F3F3F3",
+      white: "#ffffff",
+      "off-white": "#F3F3F3",
     },
     fontWeight: {
       normal: "400",
@@ -55,12 +56,15 @@ export default {
       8: "1.25rem",
     },
     extend: {
+      borderRadius: {
+        button: "100px",
+      },
       fontFamily: {
         title: ["var(--font-oswald)", "sans-serif"],
         body: ["var(--font-open-sans)", "serif"],
-        "luckiest-guy": ["var(--font-luckiest-guy)", "cursive"]
-      }
-    }
+        "luckiest-guy": ["var(--font-luckiest-guy)", "cursive"],
+      },
+    },
   },
   plugins: [],
 } satisfies Config;
