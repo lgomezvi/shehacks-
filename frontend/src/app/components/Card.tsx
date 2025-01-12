@@ -1,14 +1,17 @@
+import Link from 'next/link';
 import React from 'react'
 
 interface CardProps {
+  id: string;
   image: string;
   title: string;
   originalPrice?: number;
   salePrice: number;
 }
 
-const Card: React.FC<CardProps> = ({ image, title, originalPrice, salePrice }) => {
+const Card: React.FC<CardProps> = ({ id, image, title, originalPrice, salePrice }) => {
   return (
+    <Link href={`/explore/${id}`} className="group">
     <div className="max-w-sm rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="relative pb-[100%]">
         <img
@@ -31,6 +34,7 @@ const Card: React.FC<CardProps> = ({ image, title, originalPrice, salePrice }) =
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 
