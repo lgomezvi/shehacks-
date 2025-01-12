@@ -18,6 +18,8 @@ interface UserData {
     title: string;
     price: string;
     status: string;
+    sold: boolean;
+    createdAt: Date;
   }[];
   recentActivity: string[];
   stats: {
@@ -134,6 +136,28 @@ export default function Profile() {
       );
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleMarkAsSold = async (listingId: string) => {
+    try {
+      const response = await fetch(`/api/listing/${listingId}`, {
+        method: 'PATCH',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to mark listing as sold');
+      }
+
+      // Refresh the listings after marking as sold
+      const refreshResponse = await fetch(`/api/listings/${encodeURIComponent(user?.email || '')}`);
+      if (refreshResponse.ok) {
+        const data = await refreshResponse.json();
+        setUserData(data);
+      }
+    } catch (err) {
+      console.error('Error marking listing as sold:', err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     }
   };
 
@@ -334,19 +358,29 @@ export default function Profile() {
                 key={listing.id}
                 className="flex justify-between items-center border-b pb-2"
               >
-                <div>
+                <div className="flex-grow">
                   <h4 className="font-semibold">{listing.title}</h4>
                   <p className="text-sm text-gray-600">{listing.price}</p>
                 </div>
-                <span
-                  className={`text-sm px-2 py-1 rounded ${
-                    listing.status === "Active"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {listing.status}
-                </span>
+                <div className="flex items-center space-x-2">
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${
+                      listing.sold 
+                        ? "bg-gray-100 text-gray-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
+                  >
+                    {listing.sold ? "Sold" : "Active"}
+                  </span>
+                  {listing.sold === false && (
+                    <button
+                      onClick={() => handleMarkAsSold(listing.id)}
+                      className="text-xs px-2 py-1 text-red-600 hover:text-red-800 font-medium"
+                    >
+                      Mark sold
+                    </button>
+                  )}
+                </div>
               </li>
             ))}
           </ul>

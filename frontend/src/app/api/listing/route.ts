@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
-import { Listing } from '@/models/Listing'; // Import Listing model (not User)
+import { Listing } from '@/models/Listing';
+import { Types } from 'mongoose';
 
 export async function POST(request: Request) {
   try {
@@ -60,19 +61,20 @@ export async function POST(request: Request) {
   }
 }
 
+
 export async function GET() {
   try {
     await connectDB();
     
-    const listings = await Listing.find({}).sort({ createdAt: -1 });
+    const listings = await Listing.find({sold: false}).sort({ createdAt: -1 });
     
     return NextResponse.json({
       listings,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch listings' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch listings' },
       { status: 500 }
     );
   }

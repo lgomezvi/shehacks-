@@ -49,95 +49,43 @@ export async function GET(
   }
 }
 
-// Optionally, add PATCH endpoint to update listing
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await connectDB();
-
-    if (!params?.id) {
+    request: Request,
+    { params }: { params: { id: string } }
+  ) {
+    try {
+      await connectDB();
+      
+      if (!params?.id || !Types.ObjectId.isValid(params.id)) {
+        return NextResponse.json(
+          { error: 'Invalid listing ID' },
+          { status: 400 }
+        );
+      }
+  
+      const listing = await Listing.findByIdAndUpdate(
+        params.id,
+        { 
+          sold: true,
+          status: 'Sold'
+        },
+        { new: true }
+      );
+  
+      if (!listing) {
+        return NextResponse.json(
+          { error: 'Listing not found' },
+          { status: 404 }
+        );
+      }
+  
+      return NextResponse.json({ listing });
+    } catch (error) {
+      console.error('Error updating listing:', error);
       return NextResponse.json(
-        { error: 'Listing ID is required' },
-        { status: 400 }
+        { error: 'Failed to update listing' },
+        { status: 500 }
       );
     }
-
-    if (!Types.ObjectId.isValid(params.id)) {
-      return NextResponse.json(
-        { error: 'Invalid listing ID format' },
-        { status: 400 }
-      );
-    }
-
-    const body = await request.json();
-    
-    const updatedListing = await Listing.findByIdAndUpdate(
-      params.id,
-      { $set: body },
-      { new: true, runValidators: true }
-    );
-
-    if (!updatedListing) {
-      return NextResponse.json(
-        { error: 'Listing not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      message: 'Listing updated successfully',
-      listing: updatedListing
-    });
-  } catch (error) {
-    console.error('Error updating listing:', error);
-    return NextResponse.json(
-      { error: 'Failed to update listing' },
-      { status: 500 }
-    );
   }
-}
-
-// Optionally, add DELETE endpoint
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await connectDB();
-
-    if (!params?.id) {
-      return NextResponse.json(
-        { error: 'Listing ID is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!Types.ObjectId.isValid(params.id)) {
-      return NextResponse.json(
-        { error: 'Invalid listing ID format' },
-        { status: 400 }
-      );
-    }
-
-    const deletedListing = await Listing.findByIdAndDelete(params.id);
-
-    if (!deletedListing) {
-      return NextResponse.json(
-        { error: 'Listing not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      message: 'Listing deleted successfully'
-    });
-  } catch (error) {
-    console.error('Error deleting listing:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete listing' },
-      { status: 500 }
-    );
-  }
-} 
+  

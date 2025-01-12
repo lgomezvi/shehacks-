@@ -8,6 +8,7 @@ interface ListingDocument {
   product: string;
   price: number;
   status: string;
+  sold: boolean;
   createdAt: Date;
 }
 
@@ -29,7 +30,7 @@ export async function GET(
     const email = decodeURIComponent(params.email);
     const listings = await Listing.find({ email })
       .sort({ createdAt: -1 })
-      .select('product price status createdAt')
+      .select('product price status sold createdAt')
       .lean()
       .exec() as unknown as ListingDocument[];
 
@@ -38,13 +39,14 @@ export async function GET(
       title: listing.product,
       price: `$${listing.price.toFixed(2)}`,
       status: listing.status || 'Available',
+      sold: listing.sold,
       createdAt: listing.createdAt
     }));
 
     const stats = {
       totalListings: listings.length,
-      activeListings: listings.filter(l => l.status !== 'Sold').length,
-      soldListings: listings.filter(l => l.status === 'Sold').length
+      activeListings: listings.filter(l => !l.sold).length,
+      soldListings: listings.filter(l => l.sold).length
     };
 
     const recentActivity = formattedListings
