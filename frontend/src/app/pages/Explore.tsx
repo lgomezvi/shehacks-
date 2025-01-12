@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { Menu } from "../components/Menu";
 import { Search, ChevronDown } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 // Define the Listing type based on your schema
 interface Listing {
@@ -24,6 +25,7 @@ const sortOptions = [
 ];
 
 const Explore: React.FC = () => {
+  const router = useRouter();
   const [listings, setListings] = useState<Listing[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,7 +55,7 @@ const Explore: React.FC = () => {
 
   // Filter listings based on category, search query, and price range
   const filteredListings = listings
-    .filter((listing) => {
+    .filter((listing: Listing) => {
       const matchesCategory =
         selectedCategory === "all" || listing.category === selectedCategory;
       const matchesSearch = listing.product
@@ -66,9 +68,7 @@ const Explore: React.FC = () => {
           listing.price >= 50 &&
           listing.price <= 100) ||
         (priceRange === "over-100" && listing.price > 100);
-      return (
-        matchesCategory && matchesSearch && matchesPriceRange && !listing.sold
-      );
+      return matchesCategory && matchesSearch && matchesPriceRange && !listing.sold;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -84,6 +84,11 @@ const Explore: React.FC = () => {
           return 0;
       }
     });
+
+  // Add handleCardClick function
+  const handleCardClick = (listingId: string) => {
+    router.push(`/product/${listingId}`);
+  };
 
   if (isLoading) {
     return (
@@ -169,6 +174,7 @@ const Explore: React.FC = () => {
             price={listing.price}
             status={listing.status}
             location={listing.location}
+            onClick={() => handleCardClick(listing._id)}
           />
         ))}
       </div>
