@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Layout } from "./components";
 import { universities } from "./constants";
 import Image from "next/image";
-import { Dashboard } from "./pages/Dashboard";
+import Explore from "./pages/Explore";
 
 export default function Home() {
   const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
@@ -98,6 +98,7 @@ export default function Home() {
           </div>
         </main>
       )}
+      {isAuthenticated ? <Explore /> : <p>Error</p>}
     </Layout>
   );
 }
